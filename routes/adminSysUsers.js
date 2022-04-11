@@ -69,12 +69,10 @@ router.route('/')
     UserModel.findOneAndUpdate({_id: user._id}, user)
       .then(oldUser => {
         const data = Object.assign(oldUser, user)
-        // 返回
         res.send({status: 0, data})
       })
       .catch(error => {
-        console.error('更新用户异常', error)
-        res.send({status: 1, msg: '更新用户异常, 请重新尝试'})
+        res.send({status: 1, msg: 'Update user exception, please try again'})
       })
   })
 

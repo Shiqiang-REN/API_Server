@@ -17,7 +17,6 @@ router.route('/')
 
   .post((req, res) => {
     const product = req.body
-    console.log('product', product)
     ProductModel.findOne({name: product.name})
       .then(p => {
         if (p) {

@@ -1,13 +1,12 @@
 const express = require('express');
 const CategoryModel = require('../models/CategoryModel');
-
 const router = express.Router();
 
 router.route('/')
   .get( (req, res) => {
     CategoryModel.find({})
-      .then(categorys => {
-        res.send({status: 0, data: categorys})
+      .then(categories => {
+        res.send({status: 0, data: categories})
       })
       .catch(error => {
         res.send({status: 1, msg: 'Get category list exception, please try again'})
