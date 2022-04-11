@@ -1,11 +1,10 @@
 //create server
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path');
 const app = express();
 
 //Mongodb
-mongoose.connect('mongodb+srv://admin:pFDRwVIyhua7pyZ9@cluster0.4ueqo.mongodb.net/bootcamp_project?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://admin:pFDRwVIyhua7pyZ9@cluster0.4ueqo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -32,6 +31,23 @@ app.use(flash())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// 设定CORS跨域
+app.use((req, res, next) => {
+  // 设置响应头
+  res.set('Access-Control-Allow-Origin', '*');
+  // OPTIONS 预检请求，当请求方式不是get和post / 请求头包含非默认参数
+  // 预检请求作用：检查当前请求是否允许跨域
+  res.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'content-type, authorization, accept');
+  res.set('Access-Control-Max-Age', 86400);
+  // 快速返回预检请求响应
+  if (req.method.toLowerCase() === 'options') {
+    // 命中了预检请求
+    return res.end();
+  }
+  next();
+});
+
 //middlewares
 const passport = require ('./config/passport')
 
@@ -41,6 +57,11 @@ app.use(passport.session());
 
 //routers
 const adminSysUsersRoutes = require('./routes/adminSysUsers');
+const RolesRoutes = require('./routes/roles');
+const ProductsRoutes = require('./routes/products');
+const CategoriesRoutes = require('./routes/categories');
+const UploadImgRoutes = require('./routes/uploadImg');
+const RolesRouter = require('./routes/roles');
 
 
 //jwt
@@ -48,27 +69,13 @@ const jwt = require('jsonwebtoken');
 const {isLoggedIn, verifyToken} = require('./middlewares/authUser');
 
 //routes
-app.use('/', verifyToken, isLoggedIn, adminSysUsersRoutes);
-
-
-app.get('/home',(req,res)=>{
-  res.send('home1')
-});
-
-app.post('/register',async (req, res) => {
-  const {email, username, password} = req.body;
-  const user = new User({email, username});
-  const registeredUser = await User.register(user, password);
-  const token = jwt.sign({id: registeredUser.id}, 'PRIVATE_KEY', { expiresIn: '7 days' });
-  console.log(token)
-  res.send('home')
-});
-
-
-
-
-
-
+app.use('/adminUsers',isLoggedIn, adminSysUsersRoutes);
+app.use('/manage/products', verifyToken, ProductsRoutes);
+app.use('/manage/categories', verifyToken, CategoriesRoutes);
+app.use('/manage/roles', verifyToken, RolesRoutes);
+app.use('/manage/img', verifyToken, UploadImgRoutes);
+app.use('/manage/users', verifyToken, adminSysUsersRoutes);
+app.use('/manage/roles', verifyToken, RolesRouter);
 
 
 //listing the port
