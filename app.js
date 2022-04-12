@@ -34,18 +34,13 @@ app.use(flash())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// 设定CORS跨域
+//CORS
 app.use((req, res, next) => {
-  // 设置响应头
   res.set('Access-Control-Allow-Origin', '*');
-  // OPTIONS 预检请求，当请求方式不是get和post / 请求头包含非默认参数
-  // 预检请求作用：检查当前请求是否允许跨域
   res.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
   res.set('Access-Control-Allow-Headers', 'content-type, authorization, accept');
   res.set('Access-Control-Max-Age', 86400);
-  // 快速返回预检请求响应
   if (req.method.toLowerCase() === 'options') {
-    // 命中了预检请求
     return res.end();
   }
   next();
