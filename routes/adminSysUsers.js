@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const {verifyToken, isLoggedIn} = require('../middlewares/authUser');
 const jwt = require('jsonwebtoken');
 const RoleModel = require('../models/RoleModel');
 const UserModel = require('../models/UserModel');

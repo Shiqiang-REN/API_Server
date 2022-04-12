@@ -1,6 +1,7 @@
 const express = require('express');
 const ProductModel = require('../models/ProductModel');
 const {pageFilter} = require('../utils');
+const CategoryModel = require('../models/CategoryModel');
 const router = express.Router();
 
 router.route('/')
@@ -44,7 +45,6 @@ router.route('/')
 
   .put( (req, res) => {
     const product = req.body
-    console.log(product)
     ProductModel.findOneAndUpdate({_id: product._id}, product)
       .then(oldProduct => {
         res.send({status: 0})
@@ -55,7 +55,18 @@ router.route('/')
       })
   })
 
-router.route('/status/:productId').put( (req, res) => {
+  .delete( (req, res) => {
+    const {productId} = req.body
+    ProductModel.deleteOne({_id: productId})
+      .then((doc) => {
+        res.send({status: 0})
+      })
+      .catch(error => {
+        res.send({status: 1, msg: 'Error delete product, please try again'})
+      })
+  })
+
+router.put( '/status/:productId',(req, res) => {
   const {status} = req.body
   const {productId} = req.params
   console.log(req.params)
@@ -69,13 +80,15 @@ router.route('/status/:productId').put( (req, res) => {
 })
 
 router.get('/search', (req, res) => {
-  const {pageNum, pageSize, searchName, productName, productDesc} = req.query
+  const {pageNum, pageSize, productCategoryId, productName, productDesc} = req.query
   console.log(productName)
   let condition = {}
   if (productName) {
     condition = {name: new RegExp(`^.*${productName}.*$`)}
   } else if (productDesc) {
     condition = {desc: new RegExp(`^.*${productDesc}.*$`)}
+  }else if (productCategoryId){
+    condition = {categoryId: productCategoryId}
   }
   ProductModel.find(condition)
     .then(products => {
@@ -102,7 +115,5 @@ router.get('/:productId', (req, res) => {
       })
     })
 })
-
-
 
 module.exports = router;

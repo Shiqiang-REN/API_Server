@@ -3,6 +3,7 @@ const CategoryModel = require('../models/CategoryModel');
 const router = express.Router();
 
 router.route('/')
+
   .get( (req, res) => {
     CategoryModel.find({})
       .then(categories => {
@@ -40,6 +41,17 @@ router.route('/')
       })
       .catch(error => {
         res.send({status: 1, msg: 'Error updating category name, please try again'})
+      })
+  })
+
+  .delete( (req, res) => {
+    const {categoryId} = req.body
+    CategoryModel.deleteOne({_id: categoryId})
+      .then((doc) => {
+        res.send({status: 0})
+      })
+      .catch(error => {
+        res.send({status: 1, msg: 'Error delete category name, please try again'})
       })
   })
 

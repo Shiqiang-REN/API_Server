@@ -11,9 +11,27 @@ module.exports.verifyToken = (req, res, next)=>{
   }
 }
 
-module.exports.isLoggedIn = (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
+module.exports.adminIsLoggedIn = (req, res, next) => {
+  passport.authenticate('admin-local', (err, user, info) => {
+    console.log(user);
     if (user) {
+      console.log(user)
+      req.user = user
+      next();
+    }else{
+      res.send({
+        "status": 1,
+        "msg": "Username or Password is not correct!"
+      })
+    }
+  })(req, res);
+}
+
+module.exports.customerIsLoggedIn = (req, res, next) => {
+  passport.authenticate('customer-local', (err, user, info) => {
+    console.log(user);
+    if (user) {
+      console.log(user)
       req.user = user
       next();
     }else{

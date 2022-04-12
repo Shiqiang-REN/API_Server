@@ -11,6 +11,9 @@ db.once("open", () => {
   console.log("Database connected");
 });
 
+//static files
+app.use(express.static('public'))
+
 //session
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -56,27 +59,32 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //routers
+//admin dashboard
 const adminSysUsersRoutes = require('./routes/adminSysUsers');
 const RolesRoutes = require('./routes/roles');
 const ProductsRoutes = require('./routes/products');
 const CategoriesRoutes = require('./routes/categories');
 const UploadImgRoutes = require('./routes/uploadImg');
 const RolesRouter = require('./routes/roles');
-
+//customer website
+const CustomersRoutes = require('./routes/customers')
 
 //jwt
 const jwt = require('jsonwebtoken');
-const {isLoggedIn, verifyToken} = require('./middlewares/authUser');
+const {verifyToken, customerIsLoggedIn, adminIsLoggedIn} = require('./middlewares/authUser');
 
 //routes
-app.use('/adminUsers',isLoggedIn, adminSysUsersRoutes);
-app.use('/manage/products', verifyToken, ProductsRoutes);
-app.use('/manage/categories', verifyToken, CategoriesRoutes);
+//admin dashboard
+app.use('/adminUsers',adminIsLoggedIn, adminSysUsersRoutes);
 app.use('/manage/roles', verifyToken, RolesRoutes);
-app.use('/manage/img', verifyToken, UploadImgRoutes);
 app.use('/manage/users', verifyToken, adminSysUsersRoutes);
-app.use('/manage/roles', verifyToken, RolesRouter);
+app.use('/manage/img', verifyToken, UploadImgRoutes);
+//customer website
+app.use('/customers', customerIsLoggedIn, CustomersRoutes);
+app.use('/register', CustomersRoutes);
 
+app.use('/products',  ProductsRoutes);
+app.use('/categories', CategoriesRoutes);
 
 //listing the port
 app.listen(5001,()=>{
