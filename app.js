@@ -81,6 +81,7 @@ app.use('/register', CustomersRoutes);
 app.use('/products',  ProductsRoutes);
 app.use('/categories', CategoriesRoutes);
 app.get('/test', function (req, res) {
+  console.log('[test ok port 5000]')
   res.send({
     code: 0,
     data: 'hello react test'
@@ -88,7 +89,7 @@ app.get('/test', function (req, res) {
 })
 
 //listing the port
-app.listen(80,()=>{
-  console.log("Serving at port 80");
+app.listen(5000,()=>{
+  console.log("Serving at port 5000");
 
 });
