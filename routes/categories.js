@@ -34,7 +34,6 @@ router.route('/')
 
   .put( (req, res) => {
     const {categoryId, categoryName} = req.body
-    console.log(categoryName);
     CategoryModel.findOneAndUpdate({_id: categoryId}, {name: categoryName})
       .then(oldCategory => {
         res.send({status: 0})

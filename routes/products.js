@@ -69,7 +69,6 @@ router.route('/')
 router.put( '/status/:productId',(req, res) => {
   const {status} = req.body
   const {productId} = req.params
-  console.log(req.params)
   ProductModel.findOneAndUpdate({_id: productId}, {status})
     .then(oldProduct => {
       res.send({status: 0})
@@ -81,7 +80,6 @@ router.put( '/status/:productId',(req, res) => {
 
 router.get('/search', (req, res) => {
   const {pageNum, pageSize, productCategoryId, productName, productDesc} = req.query
-  console.log(productName)
   let condition = {}
   if (productName) {
     condition = {name: new RegExp(`^.*${productName}.*$`)}

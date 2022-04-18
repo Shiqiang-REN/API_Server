@@ -13,9 +13,7 @@ module.exports.verifyToken = (req, res, next)=>{
 
 module.exports.adminIsLoggedIn = (req, res, next) => {
   passport.authenticate('admin-local', (err, user, info) => {
-    console.log(user);
     if (user) {
-      console.log(user)
       req.user = user
       next();
     }else{
@@ -29,9 +27,7 @@ module.exports.adminIsLoggedIn = (req, res, next) => {
 
 module.exports.customerIsLoggedIn = (req, res, next) => {
   passport.authenticate('customer-local', (err, user, info) => {
-    console.log(user);
     if (user) {
-      console.log(user)
       req.user = user
       next();
     }else{

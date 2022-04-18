@@ -29,7 +29,6 @@ router.route('/')
         })
       }
       const file = req.file;
-      console.log(file)
       res.send({
         status: 0,
         data: {

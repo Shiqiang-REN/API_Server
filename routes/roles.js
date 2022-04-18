@@ -30,7 +30,6 @@ router.route('/')
     role.auth_time = Date.now()
     RoleModel.findOneAndUpdate({_id: role._id}, role)
       .then(oldRole => {
-        // console.log('---', oldRole._doc)
         res.send({status: 0, data: {...oldRole._doc, ...role}})
       })
       .catch(error => {

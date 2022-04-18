@@ -15,8 +15,9 @@ router.post('/login',  (req, res) => {
 router.route('/')
   .post(async (req, res) => {
     const {email, password, displayName} = req.body
+    console.log(req.body)
     try{
-      let customer = await CustomerModel.findOne({email})
+      let customer = await CustomerModel.findOne({username:email})
       if(customer) res.send({status: 1, msg: 'The user already exists'})
       else {
         const user = new CustomerModel({username:email, displayName});

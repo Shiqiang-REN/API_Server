@@ -80,8 +80,15 @@ app.use('/register', CustomersRoutes);
 
 app.use('/products',  ProductsRoutes);
 app.use('/categories', CategoriesRoutes);
+app.get('/test', function (req, res) {
+  res.send({
+    code: 0,
+    data: 'hello react test'
+  })
+})
 
 //listing the port
-app.listen(5001,()=>{
-  console.log("Serving at port 5001");
+app.listen(80,()=>{
+  console.log("Serving at port 80");
+
 });
