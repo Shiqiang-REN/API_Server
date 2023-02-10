@@ -91,5 +91,6 @@ app.get('/test', function (req, res) {
 //listing the port
 app.listen(5000,()=>{
   console.log("Serving at port 5000");
+  console.log("ok");
 
 });
