@@ -8,6 +8,7 @@ router.route('/')
     CategoryModel.find({})
       .then(categories => {
         res.send({status: 0, data: categories})
+        console.log(123)
       })
       .catch(error => {
         res.send({status: 1, msg: 'Get category list exception, please try again'})
