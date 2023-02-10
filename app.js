@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 //Mongodb
-mongoose.connect('mongodb+srv://admin:pFDRwVIyhua7pyZ9@cluster0.4ueqo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://admin:BjBWcB0l3TvywNic@cluster0.4ueqo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
