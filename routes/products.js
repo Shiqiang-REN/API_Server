@@ -90,7 +90,9 @@ router.get('/search', (req, res) => {
   }
   ProductModel.find(condition)
     .then(products => {
-      res.send({status: 0, data: pageFilter(products, pageNum, pageSize)})
+      const items = pageFilter(products, pageNum, pageSize)
+      items.list = items.list.filter(product => product.status !== 2)
+      res.send({status: 0, data: items})
     })
     .catch(error => {
       res.send({status: 1, msg: 'The search product list is abnormal, please try again'})
