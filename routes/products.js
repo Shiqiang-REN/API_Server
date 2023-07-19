@@ -9,7 +9,10 @@ router.route('/')
     const {pageNum, pageSize} = req.query
     ProductModel.find({})
       .then(products => {
-        res.send({status: 0, data: pageFilter(products.reverse(), pageNum, pageSize)})
+        const products = pageFilter(products.reverse(), pageNum, pageSize)
+        products.list = products.list.filter(product => product.status !== 2)
+        //res.send({status: 0, data: pageFilter(products.reverse(), pageNum, pageSize)})
+        res.send({status: 0, data: products})
       })
       .catch(error => {
         res.send({status: 1, msg: 'Get the product list is abnormal, please try again'})
