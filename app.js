@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 //Mongodb
-mongoose.connect('mongodb+srv://eshop:Bb7MkQuBPM28P5M4@cluster0.4ueqo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://eshop:vwIDBe8RmGD3fvWX@cluster0.4ueqo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -89,7 +89,7 @@ app.get('/test', function (req, res) {
 })
 
 //listing the port
-app.listen(5000,()=>{
+app.listen(5002,()=>{
   console.log("Serving at port 5000");
   console.log("ok");
 
